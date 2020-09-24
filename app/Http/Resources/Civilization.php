@@ -19,8 +19,9 @@ class Civilization extends JsonResource
       'name' => $this->name,
       'expansion' => $this->expansion,
       'army_type' => $this->army_type,
-      'unique_unit' => $this->unique_unit,
+      //'unique_unit' => $this->unique_unit,
       //'unique_tech' => $this->unique_tech,
+      'team_bonus' => $this->team_bonus,
       'created_at' => $this->created_at,
       'updated_at' => $this->updated_at,
     ];

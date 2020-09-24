@@ -23,5 +23,14 @@ class CivilizationSeeder extends Seeder
         'team_bonus' => '+5 to CHA',
         'civilization_bonus' => '["-5 to STR", "Villagers carry +2"]'
       ]);
+      DB::table('civilizations')->insert([
+        'name' => 'Scoundrels',
+        'expansion' => 'The Dandies of Yorkshire',
+        'army_type' => 'Knaives and Ruffians',
+        'unique_unit' => '["uniturl1", "uniturl2"]',
+        'unique_tech' => '["techurl1"]',
+        'team_bonus' => '+5 to STR',
+        'civilization_bonus' => '["-5 to CHA"]'
+      ]);
     }
 }

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Civilization extends Model
 {
   use HasFactory;
-  protected $table = 'civilizations';
-  protected $fillable = ['name', 'expansion', 'army_type'];
+  //protected $table = 'civilizations';
+  //protected $fillable = ['name', 'expansion', 'army_type'];
 }

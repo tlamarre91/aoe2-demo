@@ -6,7 +6,8 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+//window.Vue = require('vue');
+import Vue from "vue";
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,14 +20,34 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//import ExampleComponent from "./components/ExampleComponent.vue";
+//import CivilizationCard from "./components/CivilizationCard.vue";
+import CivilizationList from "./components/CivilizationList.vue";
+import App from "./components/App.vue";
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Vue.component('civilization-card', require('./components/CivilizationCard.vue').default);
+//const CivilizationList = require('./components/CivilizationList.vue').default;
+Vue.component('civilization-list', CivilizationList);
+Vue.component('App', App);
+Vue.config.productionTip = false;
 
-const app = new Vue({
+function main() {
+  const app = new Vue({
     el: '#app',
-});
+    template: "<App/>",
+    created: function () {
+      console.log("created");
+    },
+
+    beforeCreate: function () {
+      console.log('before create');
+    },
+
+    mounted: function () {
+      console.log("mounted");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", main);

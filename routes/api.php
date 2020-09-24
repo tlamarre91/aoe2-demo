@@ -9,9 +9,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/initialize', function () {
-  return 'TODO!';
-});
-
-Route::get('/civilizations', [CivilizationController::class, 'index']);
-Route::get('/civilizations/{id}', [CivilizationController::class, 'show']);
+Route::post('civilizations/initialize', [CivilizationController::class, 'initialize']);
+Route::resource('civilizations', CivilizationController::class);
