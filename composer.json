@@ -1,12 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "tlamarre91/aoe2-demo",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "AoE2 API Demo",
     "keywords": [
-        "framework",
-        "laravel"
+        "demo"
     ],
-    "license": "MIT",
+    "license": "none",
     "require": {
         "php": "^7.3",
         "fideloper/proxy": "^4.2",
