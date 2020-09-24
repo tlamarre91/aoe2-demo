@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Civilization;
@@ -11,6 +12,7 @@ class CivilizationController extends Controller
 {
   public function index()
   {
+    Log::debug('showing index!');
     $civilizations = DB::select('select * from civilizations');
     return view('civilization-index', ['civilizations' => $civilizations]);
   }
