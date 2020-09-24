@@ -15,13 +15,13 @@ class CreateCivilizationsTable extends Migration
     {
         Schema::create('civilizations', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 240);
-            $table->string('expansion', 240);
-            $table->string('army_type', 240);
-            $table->json('unique_unit');
-            $table->json('unique_tech');
-            $table->string('team_bonus');
-            $table->json('civilization_bonus');
+            $table->string('name', 240)->nullable();
+            $table->string('expansion', 240)->nullable();
+            $table->string('army_type', 240)->nullable();
+            $table->json('unique_unit')->nullable();
+            $table->json('unique_tech')->nullable();
+            $table->string('team_bonus')->nullable();
+            $table->json('civilization_bonus')->nullable();
             $table->timestamps();
         });
     }

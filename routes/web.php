@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CivilizationController;
 
 Route::get('/', function () {
+    return view('home');
+});
+
+Route::get('/old-index', function () {
     return view('welcome');
 });
 
 Route::get('/test', function () {
   return 'check it out';
 });
-
-Route::get('/civilizations', [CivilizationController::class, 'index']);
-Route::get('/civilizations/{id}', [CivilizationController::class, 'show']);
