@@ -10,6 +10,8 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * Set to wildcard bceause app will run behind Heroku load balancer
+     *
      * @var array|string|null
      */
     protected $proxies = '*';
