@@ -5,16 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
-use App\Models\Civilization;
+use App\Models\Civilization as CivilizationModel;
+use App\Http\Resources\Civilization as CivilizationResource;
+use App\Http\Resources\CivilizationCollection as CivilizationCollection;
 
 class CivilizationController extends Controller
 {
   public function index()
   {
-    Log::debug('showing index!');
-    $civilizations = DB::select('select * from civilizations');
-    return view('civilization-index', ['civilizations' => $civilizations]);
+    return new CivilizationCollection(CivilizationModel::all());
+  }
+
+  /**
+   * pull the canonical civilization list from remote source at
+   * https://age-of-empires-2-api.herokuapp.com/api/v1
+   */
+  public function initialize()
+  {
+    $response = Http::get('https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations');
+    Log::debug('got response of length '.$response->getHeader('Content-Length')[0]);
   }
 
   public function insert($name)
@@ -24,6 +35,6 @@ class CivilizationController extends Controller
 
   public function show($id)
   {
-    return view('civilization', ['civilization' => Civilization::findOrFail($id)]);
+    return new CivilizationResource(CivilizationModel::findOrFail($id));
   }
 }
