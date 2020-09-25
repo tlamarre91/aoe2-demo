@@ -38,25 +38,34 @@ export default {
   },
   methods: {
     removeCivilization(idToRemove) {
-      axios.delete(`/api/civilizations/${idToRemove}`).then((res) => {
-        const msg = `DELETE response: ${res.status}`;
+      const url = `/api/civilizations/${idToRemove}`;
+      axios.delete(url).then((res) => {
+        const status = res.status == 200 ? "OK": res.status;
+        const msg = `DELETE ${url} response: ${status}`;
         console.log(msg);
         this.$root.$emit("log", msg);
         this.load();
       }, (err) => {
-        console.log(`DELETE error: ${err}`);
+        const msg = `DELETE error: ${err}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
       });
     },
 
     load() {
       console.log("loading list");
-      axios.get("/api/civilizations").then((res) => {
+      const url = "/api/civilizations";
+      axios.get(url).then((res) => {
         this.civilizations = res.data.data; // why am i returning data.data?
+        const msg =  `GET ${url} loaded ${this.civilizations ? this.civilizations.length : 0} civilizations`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
         console.log(this.civilizations);
-        this.$root.$emit("log", `loaded ${this.civilizations && this.civilizations.length} civilizations`);
         this.loaded = true;
       }, (err) => {
-        console.log(`error loading list: ${err}`);
+        const msg = `GET ${url} error: ${err}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
       });
     }
   }

@@ -22,10 +22,9 @@ export default {
   },
 
   methods: {
-    putEntry(entry) {
-      console.log(`logging ${entry}`);
+    pushEntry(entry) {
       if (this.entries.length >= this.maxEntries) {
-        this.entries = this.entries.slice(1);
+        this.entries = this.entries.slice(1, this.maxEntries + 1);
       }
 
       this.entries.push(entry);

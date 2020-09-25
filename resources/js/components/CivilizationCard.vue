@@ -106,15 +106,16 @@ export default {
       const newValue = keyval[1];
       update[key] = newValue;
       console.log(update);
-      axios.put(`/api/civilizations/${this.civilization.id}`, update).then((res) => {
+      const url = `/api/civilizations/${this.civilization.id}`;
+      axios.put(url, update).then((res) => {
         const status = res.status == 200 ? "OK" : res.status;
-        const msg = `PUT civ ${this.civilization.id} response status: ${status}`;
+        const msg = `PUT ${url} response status: ${status}`;
         this.$root.$emit("log", msg);
         console.log(msg);
         console.log(res.data);
         this.civilization = res.data;
       }, (err) => {
-        const msg = `PUT ${this.civilization.id} error: ${err}`;
+        const msg = `PUT ${url} error: ${err}`;
         console.log(msg);
         this.$root.$emit("log", msg);
       });

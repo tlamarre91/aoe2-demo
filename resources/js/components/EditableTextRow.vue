@@ -55,15 +55,17 @@ export default {
   methods: {
     finishEditing() {
       this.value = this.value.trim().slice(0, 255);
-      const msg = `updating civ ${this.civilizationId}, { ${this.keyString}: ${this.oldValue} => ${this.value} }`;
-      console.log(msg);
-      this.$root.$emit("log", msg);
-      this.$emit('edited', [this.keyString, this.value]);
+      if (this.value != this.oldValue) {
+        const msg = `updating civ ${this.civilizationId}, ${this.keyString}: ${this.oldValue} => ${this.value}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
+        this.$emit('edited', [this.keyString, this.value]);
+      }
       this.editing = false;
     },
 
     startEditing(event) {
-      event.preventDefault(); // don't actually let the keypress event have any further effect
+      event.preventDefault(); // don't let the keypress event have any further effect
       this.editing = true;
       // wait a tick so that we actually have the <input> rendered and available for focus/selection
       this.$nextTick(() => {
@@ -95,7 +97,14 @@ export default {
   font-weight: bold;
 }
 
-.editable-text-value {
+.editable-text-value-edit {
+  font-size: 1rem;
+  font-family: sans-serif;
+}
+
+.editable-text-value-static {
+  font-size: 1rem;
+  font-family: sans-serif;
 }
 
 .editable-text-value-static:focus {
