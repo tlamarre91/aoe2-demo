@@ -116,7 +116,7 @@ export default {
       }, (err) => {
         const msg = `PUT ${this.civilization.id} error: ${err}`;
         console.log(msg);
-        this.$emit("log"< msg);
+        this.$root.$emit("log", msg);
       });
     },
 

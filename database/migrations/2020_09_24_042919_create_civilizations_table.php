@@ -15,9 +15,9 @@ class CreateCivilizationsTable extends Migration
     {
         Schema::create('civilizations', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 240)->nullable();
-            $table->string('expansion', 240)->nullable();
-            $table->string('army_type', 240)->nullable();
+            $table->string('name')->nullable();
+            $table->string('expansion')->nullable();
+            $table->string('army_type')->nullable();
             $table->json('unique_unit')->nullable();
             $table->json('unique_tech')->nullable();
             $table->string('team_bonus')->nullable();

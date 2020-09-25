@@ -56,7 +56,9 @@ export default {
         axios.post('/api/civilizations', {
           name: trimmedText
         }).then((res) => {
-          console.log(`POST response: ${res.status}`);
+          const msg = `POST civilization response: ${res.status}`;
+          console.log(msg);
+          this.$root.$emit("log", msg);
           this.newCivText = "";
           this.$refs.list.load();
         }, (err) => {
@@ -71,19 +73,25 @@ export default {
         console.log(json);
         this.$refs.list.load();
       }, (err) => {
-        console.log(`error reinitializing DB: ${err}`);
+        const msg = `error reinitializing DB: ${err}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
       });
     },
 
     dropAll() {
       axios.delete("/api/civilizations/destroy-all").then((res) => {
+        const msg = `DELETE ALL response: ${res.status}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
         this.$refs.list.load();
       }, (err) => {
-        console.log(`DELETE all error: ${err}`);
+        console.log(`DELETE ALL error: ${err}`);
       });
     },
 
     refresh() {
+      this.$root.$emit("log", "refreshing civilization list");
       this.$refs.list.load();
     }
   }
