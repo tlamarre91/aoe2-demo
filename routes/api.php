@@ -10,4 +10,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('civilizations/initialize', [CivilizationController::class, 'initialize']);
+Route::delete('civilizations/destroy-all', [CivilizationController::class, 'destroyAll']);
 Route::resource('civilizations', CivilizationController::class);

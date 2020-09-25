@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "aoe2-demo",
-    "description": "A demo Laravel/Vue app for editing Aoe2 civilization lists",
+    "description": "A little Laravel/Vue app for editing AoE2 civilization lists",
     "engines": {
       "node": "14.x"
     },

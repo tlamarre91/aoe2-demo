@@ -1,47 +1,42 @@
 <template>
   <div class="civilization-card">
     <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">
-            <div class="civ-name">
-              {{ civilization.name }}
-            </div>
-            <div class="remove-btn">
-              <button @click="$emit('remove', civilization.id)">
-                x
-              </button>
-            </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="civ-name">
+            {{ civilization.name }}
           </div>
-          <div class="card-body">
-            <editable-text-row 
-               @edited="handleEditedText"
-               :civilization-id="civilization.id"
-               key-string="expansion"
-               label="Expansion"
-               :initial-value="civilization.expansion"
-               />
-            <editable-text-row 
-               @edited="handleEditedText"
-               :civilization-id="civilization.id"
-               key-string="army_type"
-               label="Army type"
-               :initial-value="civilization.army_type"
-               />
-            <editable-text-row 
-               @edited="handleEditedText"
-               :civilization-id="civilization.id"
-               key-string="team_bonus"
-               label="Team bonus"
-               :initial-value="civilization.team_bonus"
-               />
-            <div class="card-footer">
-              <div class="created-at">
-                created: {{ displayCreatedAt }}
-              </div>
-              <div class="updated-at">
-                updated: {{ displayUpdatedAt }}
-              </div>
+          <div class="remove-btn">
+            <button @click="$emit('remove', civilization.id)">
+              x
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <editable-text-row 
+             @edited="handleEditedText"
+             :civilization-id="civilization.id"
+             key-string="expansion"
+             label="Expansion"
+             :initial-value="civilization.expansion" />
+          <editable-text-row 
+             @edited="handleEditedText"
+             :civilization-id="civilization.id"
+             key-string="army_type"
+             label="Army type"
+             :initial-value="civilization.army_type" />
+          <editable-text-row 
+             @edited="handleEditedText"
+             :civilization-id="civilization.id"
+             key-string="team_bonus"
+             label="Team bonus"
+             :initial-value="civilization.team_bonus" />
+          <div class="card-footer">
+            <div class="created-at">
+              created: {{ displayCreatedAt }}
+            </div>
+            <div class="updated-at">
+              updated: {{ displayUpdatedAt }}
             </div>
           </div>
         </div>
@@ -173,8 +168,7 @@ td {
 	max-width: 700px;
   padding: 10px;
   border: 1px solid #ddd;
-	margin: 0 auto;
-  margin-bottom: 10px;
+	margin: 5px auto;
 	line-height: 1.4;
 	font-family: 'Nunito', sans-serif;
 	-webkit-font-smoothing: antialiased;
