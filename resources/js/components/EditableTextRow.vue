@@ -14,6 +14,9 @@
       <span
         class="editable-text-value-static"
         @click="startEditing"
+        @keydown.enter="startEditing"
+        @keydown.space="startEditing"
+        tabindex="0"
         v-else >
         <template v-if="value">
           {{ value }}
@@ -51,12 +54,14 @@ export default {
 
   methods: {
     finishEditing() {
+      this.value = this.value.trim();
       console.log(`done editing civ ${this.civilizationId}, { ${this.keyString}: ${this.value} }`);
       this.$emit('edited', [this.keyString, this.value]);
       this.editing = false;
     },
 
-    startEditing() {
+    startEditing(event) {
+      event.preventDefault();
       this.editing = true;
       // wait a tick so that we actually have the <input> rendered and available for focus/selection
       this.$nextTick(() => {
@@ -73,6 +78,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../sass/_variables.scss';
+
 .editable-text-row {
   display: flex;
   width: 100%;
@@ -87,6 +94,11 @@ export default {
 }
 
 .editable-text-value {
+}
+
+.editable-text-value-static:focus {
+  background: #bbf;
+  outline: none;
 }
 
 .editable-text-placeholder {

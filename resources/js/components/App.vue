@@ -1,17 +1,81 @@
 <template>
 	<div id="app">
 		<h2>AoE2 Civilization Editor</h2>
-		<CivilizationList/>
+    <div class="input-container">
+      <input-text 
+        v-model="newCivText"
+        placeholder="New civilization"
+        @keydown.enter="addCivilization"
+      />
+    </div>
+    <div class="buttons-container">
+      <a tabindex="0" href="#" class="normal-button" @click="refresh">
+        refresh
+      </a>
+      <a tabindex="0" href="#" class="urgent-button" @click="reinitializeDb">
+        populate defaults
+      </a>
+      <a tabindex="0" href="#" class="urgent-button" @click="dropAll">
+        delete all
+      </a>
+    </div>
+		<civilization-list ref="list"/>
 	</div>
 </template>
 
 <script>
 import CivilizationList from "./CivilizationList.vue";
+import InputText from './InputText.vue'
 
 export default {
 	components: {
-		CivilizationList
-	}
+		CivilizationList, InputText
+	},
+
+  data() {
+    return {
+      newCivText: '',
+    }
+  },
+
+  methods: {
+    addCivilization() {
+      const trimmedText = this.newCivText.trim()
+      if (trimmedText) {
+        axios.post('/api/civilizations', {
+          name: trimmedText
+        }).then((res) => {
+          console.log(`POST response: ${res.status}`);
+          this.newCivText = "";
+          this.$refs.list.load();
+        }, (err) => {
+          console.log(`POST error: ${err}`);
+        });
+      }
+    },
+
+    reinitializeDb() {
+      axios.post("/api/civilizations/initialize").then((res) => {
+        const json = res.data;
+        console.log(json);
+        this.$refs.list.load();
+      }, (err) => {
+        console.log(`error reinitializing DB: ${err}`);
+      });
+    },
+
+    dropAll() {
+      axios.delete("/api/civilizations/destroy-all").then((res) => {
+        this.$refs.list.load();
+      }, (err) => {
+        console.log(`DELETE all error: ${err}`);
+      });
+    },
+
+    refresh() {
+      this.$refs.list.load();
+    }
+  }
 }
 </script>
 
@@ -33,6 +97,50 @@ export default {
 
 h2 {
 	text-align: center;
-	color: $blue;
+	color: $green;
+}
+
+.input-container {
+  height: 3rem;
+}
+
+.normal-button {
+  color: $white;
+  background-color: $green;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.3em 0.5em;
+}
+
+.buttons-container {
+  margin: 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.normal-button:hover {
+  background-color: #555;
+}
+
+.normal-button:focus {
+  background-color: #555;
+}
+
+.urgent-button {
+  color: $white;
+  background-color: $urgent;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.3em 0.5em;
+}
+
+.urgent-button:hover {
+  background-color: #555;
+}
+
+.urgent-button:focus {
+  background-color: #555;
 }
 </style>
