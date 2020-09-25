@@ -1,10 +1,18 @@
 <template>
-  <input
-    type="text"
-    class="input"
-    :value="value"
-    v-on="listeners"
-  >
+  <div class="input">
+    <input
+      type="text"
+      class="input-text"
+      :placeholder="placeholder"
+      :value="value"
+      v-on="listeners" >
+    <a class="input-submit"
+       tabindex="0"
+       href="#"
+       @click="$emit('submit')" >
+      add
+    </a>
+  </div>
 </template>
 
 <script>
@@ -13,7 +21,9 @@ export default {
     value: {
       type: String,
       default: '',
-    }
+    },
+
+    placeholder: String
   },
   computed: {
     listeners () {
@@ -33,9 +43,36 @@ export default {
 @import '../../sass/_variables.scss';
 
 .input {
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.input-text {
+  width: 90%;
+  height: 3rem;
   padding: 8px 10px;
   border: 1px solid $blue;
+  font-size: 1.2rem;
+  font-family: sans-serif;
+}
+
+.input-submit {
+  width: 10%;
+  height: 3rem;
+  color: $white;
+  background-color: $green;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  align-self: center;
+  padding: 0.7rem 1.2rem;;
+}
+.input-submit:hover {
+  background-color: #555;
+}
+
+.input-submit:focus {
+  background-color: #555;
 }
 </style>
 

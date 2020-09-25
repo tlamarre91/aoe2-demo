@@ -52,20 +52,12 @@ export default {
   components: {
     EditableTextRow
   },
+
   props: {
     initialCivilization: {
       type: Object,
       required: true
     }
-    //name: String,
-    //expansion: String,
-    //armyType: String,
-    //uniqueUnit: Array,
-    //uniqueTech: Array,
-    //teamBonus: String,
-    //civilizationBonus: Array,
-    //createdAt: String,
-    //updatedAt: String
   },
 
   data() {
@@ -98,13 +90,15 @@ export default {
   },
 
   methods: {
-    load() {
-      axios.get(`/api/civilizations/${this.civilization.id}`).then((res) => {
-        console.log(`GET ${this.civilization.id} result: ${res}`);
-      }, (err) => {
-        console.log(`GET ${this.civilization.id} error: ${err}`);
-      });
-    },
+    //load() {
+    //  axios.get(`/api/civilizations/${this.civilization.id}`).then((res) => {
+    //    const msg = `GET ${this.civilization.id} result: ${res}`;
+    //    this.$root.$emit("log", msg);
+    //    console.log(msg);
+    //  }, (err) => {
+    //    console.log(`GET ${this.civilization.id} error: ${err}`);
+    //  });
+    //},
 
     handleEditedText(keyval) {
       const update = { };
@@ -112,12 +106,18 @@ export default {
       const newValue = keyval[1];
       update[key] = newValue;
       console.log(update);
-      axios.put(`/api/civilizations/${this.civilization.id}`, update).then((res) => {
-        console.log(`PUT ${this.civilization.id} result: ${res}`);
+      const url = `/api/civilizations/${this.civilization.id}`;
+      axios.put(url, update).then((res) => {
+        const status = res.status == 200 ? "OK" : res.status;
+        const msg = `PUT ${url} response status: ${status}`;
+        this.$root.$emit("log", msg);
+        console.log(msg);
         console.log(res.data);
         this.civilization = res.data;
       }, (err) => {
-        console.log(`PUT ${this.civilization.id} error: ${err}`);
+        const msg = `PUT ${url} error: ${err}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
       });
     },
 

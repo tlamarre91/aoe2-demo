@@ -4,10 +4,12 @@
     <div class="input-container">
       <input-text 
         v-model="newCivText"
-        placeholder="New civilization"
+        placeholder="Add new civilization"
         @keydown.enter="addCivilization"
+        @submit="addCivilization"
       />
     </div>
+    <log-display ref="log" :max-entries="5" />
     <div class="buttons-container">
       <a tabindex="0" href="#" class="normal-button" @click="refresh">
         refresh
@@ -25,11 +27,14 @@
 
 <script>
 import CivilizationList from "./CivilizationList.vue";
-import InputText from './InputText.vue'
+import InputText from "./InputText.vue"
+import LogDisplay from "./LogDisplay.vue";
 
 export default {
 	components: {
-		CivilizationList, InputText
+		CivilizationList,
+    InputText,
+    LogDisplay
 	},
 
   data() {
@@ -38,41 +43,68 @@ export default {
     }
   },
 
+  mounted() {
+    this.$root.$on("log", (entry) => {
+      this.$refs.log.pushEntry(entry);
+    });
+  },
+
   methods: {
     addCivilization() {
       const trimmedText = this.newCivText.trim()
       if (trimmedText) {
-        axios.post('/api/civilizations', {
+        const url = "/api/civilizations";
+        axios.post(url, {
           name: trimmedText
         }).then((res) => {
-          console.log(`POST response: ${res.status}`);
           this.newCivText = "";
+          const status = res.status == 200 ? "OK": res.status;
+          const msg = `POST ${url} response: ${status}`;
+          console.log(msg);
+          this.$root.$emit("log", msg);
           this.$refs.list.load();
         }, (err) => {
-          console.log(`POST error: ${err}`);
+          console.log(`POST ${url} error: ${err}`);
         });
       }
     },
 
     reinitializeDb() {
-      axios.post("/api/civilizations/initialize").then((res) => {
+      const msg = "requesting database reinitialization";
+      console.log(msg);
+      this.$root.$emit("log", msg);
+      const url = "/api/civilizations/initialize";
+      axios.post(url).then((res) => {
+        const status = res.status == 200 ? "OK": res.status;
+        const msg = `POST ${url} response: ${status}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
+
         const json = res.data;
         console.log(json);
         this.$refs.list.load();
       }, (err) => {
-        console.log(`error reinitializing DB: ${err}`);
+        const msg = `POST ${url} error: ${err}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
       });
     },
 
     dropAll() {
-      axios.delete("/api/civilizations/destroy-all").then((res) => {
+      const url = "/api/civilizations/destroy-all";
+      axios.delete(url).then((res) => {
+        const status = res.status == 200 ? "OK": res.status;
+        const msg = `DELETE ${url} response: ${status}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
         this.$refs.list.load();
       }, (err) => {
-        console.log(`DELETE all error: ${err}`);
+        console.log(`DELETE ${url} error: ${err}`);
       });
     },
 
     refresh() {
+      this.$root.$emit("log", "refreshing civilization list");
       this.$refs.list.load();
     }
   }
@@ -104,6 +136,12 @@ h2 {
   height: 3rem;
 }
 
+.buttons-container {
+  margin: 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .normal-button {
   color: $white;
   background-color: $green;
@@ -111,12 +149,6 @@ h2 {
   font-weight: bold;
   text-decoration: none;
   padding: 0.3em 0.5em;
-}
-
-.buttons-container {
-  margin: 0;
-  display: flex;
-  justify-content: space-evenly;
 }
 
 .normal-button:hover {
