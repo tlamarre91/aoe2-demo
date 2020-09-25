@@ -55,13 +55,15 @@ export default {
   methods: {
     finishEditing() {
       this.value = this.value.trim();
-      console.log(`done editing civ ${this.civilizationId}, { ${this.keyString}: ${this.value} }`);
+      const msg = `updating civ ${this.civilizationId}, { ${this.keyString}: ${this.oldValue} => ${this.value} }`;
+      console.log(msg);
+      this.$root.$emit("log", msg);
       this.$emit('edited', [this.keyString, this.value]);
       this.editing = false;
     },
 
     startEditing(event) {
-      event.preventDefault();
+      event.preventDefault(); // don't actually let the keypress event have any further
       this.editing = true;
       // wait a tick so that we actually have the <input> rendered and available for focus/selection
       this.$nextTick(() => {

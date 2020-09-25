@@ -8,6 +8,7 @@
         @keydown.enter="addCivilization"
       />
     </div>
+    <log-display ref="log" :max-entries="5" />
     <div class="buttons-container">
       <a tabindex="0" href="#" class="normal-button" @click="refresh">
         refresh
@@ -25,17 +26,27 @@
 
 <script>
 import CivilizationList from "./CivilizationList.vue";
-import InputText from './InputText.vue'
+import InputText from "./InputText.vue"
+import LogDisplay from "./LogDisplay.vue";
 
 export default {
 	components: {
-		CivilizationList, InputText
+		CivilizationList,
+    InputText,
+    LogDisplay
 	},
 
   data() {
     return {
       newCivText: '',
     }
+  },
+
+  mounted() {
+    this.$root.$on("log", (entry) => {
+      console.log("got log");
+      this.$refs.log.putEntry(entry);
+    });
   },
 
   methods: {

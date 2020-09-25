@@ -38,9 +38,6 @@ export default {
   },
   methods: {
     removeCivilization(idToRemove) {
-      //this.civilizations = this.civilizations.filter(civ => {
-      //  return civ.id !== idToRemove
-      //})
       axios.delete(`/api/civilizations/${idToRemove}`).then((res) => {
         console.log(`DELETE response: ${res.status}`);
         this.load();
@@ -54,6 +51,7 @@ export default {
       axios.get("/api/civilizations").then((res) => {
         this.civilizations = res.data.data; // why am i returning data.data?
         console.log(this.civilizations);
+        this.$emit("log", `loaded ${this.civilizations && this.civilizations.length} civilizations`);
         this.loaded = true;
       }, (err) => {
         console.log(`error loading list: ${err}`);
