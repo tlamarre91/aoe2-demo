@@ -5,8 +5,9 @@
     </p>
 		<div class="civilization-list" v-else-if="civilizations.length">
 			<civilization-card
+        ref="cards"
 				v-for="civ in civilizations"
-				:key="civ.id"
+				:key="civ.id.toString().concat(version)"
 				:initialCivilization="civ"
 				@remove="removeCivilization"
 			/>
@@ -30,7 +31,8 @@ export default {
   data() {
     return {
       civilizations: [ ],
-      loaded: false
+      loaded: false,
+      version: 0
     }
   },
   beforeMount() {
@@ -53,11 +55,15 @@ export default {
     },
 
     load() {
-      console.log("loading list");
+      let msg = "loading list";
+      console.log(msg);
+      this.$root.$emit("log", msg);
       const url = "/api/civilizations";
       axios.get(url).then((res) => {
-        this.civilizations = res.data.data; // why am i returning data.data?
-        const msg =  `GET ${url} loaded ${this.civilizations ? this.civilizations.length : 0} civilizations`;
+        this.civilizations.splice(0, this.civilizations.length);
+        this.civilizations.push(... res.data.data);
+        this.version += 1; // hack to get key to change so cards will update correctly
+        msg = `GET ${url} loaded ${this.civilizations ? this.civilizations.length : 0} civilizations`;
         console.log(msg);
         this.$root.$emit("log", msg);
         console.log(this.civilizations);
