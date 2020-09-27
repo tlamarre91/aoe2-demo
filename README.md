@@ -14,8 +14,9 @@ The frontend is a Vue app providing a UI for interacting with the backend, with 
 * Adding new civilizations to the list
 * Updating civilizations
 * Deleting civilizations
-* Reinitializing the list to mirror [age-of-empires-2-api.herokuapp.com/api/v1/civilizations](https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations)
+* Reinitializing the list to mirror [age-of-empires-2-api.herokuapp.com/api/v1/civilizations](https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations) or, alternatively, the file `public/civilizations.json`.
 
 ## Notes
 * Before running locally, make sure PostgreSQL is running, with a database called "aoe2". After database is created, run `php artisan migrate:fresh` to set up the database schema. Then you can run the server with `php artisan serve`.
 * Also before running locally, build the frontend with `npm run dev` (or continuously rebuild changes with `npm run watch`, or for production run `npm run prod`).
+* The app at [age-of-empires-2-api.herokuapp.com/api/v1/civilizations](https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations) actually went down recently. (I don't think that was my fault...) Consequently, I added a feature to reinitialize the database from the JSON file at `public/civilizations.json`.
