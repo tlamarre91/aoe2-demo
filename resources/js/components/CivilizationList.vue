@@ -22,8 +22,6 @@
 import axios from "axios";
 import CivilizationCard from "./CivilizationCard.vue";
 
-let nextCivId = 1
-
 export default {
   components: {
     CivilizationCard
@@ -48,7 +46,7 @@ export default {
         this.$root.$emit("log", msg);
         this.load();
       }, (err) => {
-        const msg = `DELETE error: ${err}`;
+        const msg = `DELETE ${url} error: ${err}`;
         console.log(msg);
         this.$root.$emit("log", msg);
       });

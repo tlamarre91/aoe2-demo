@@ -2,6 +2,13 @@
   <div class="editable-text-row">
     <div class="editable-text-key">
       {{ label }}
+      <a href="#"
+         class="edit-icon"
+         v-show="! editing"
+         @click="startEditing"
+         tabindex="0">
+         <img height=15 width=15 src="/img/edit.svg" alt="edit this field" />
+      </a>
     </div>
     <div class="editable-text-value">
       <input
@@ -13,10 +20,8 @@
         v-if="editing" />
       <span
         class="editable-text-value-static"
-        @click="startEditing"
         @keydown.enter="startEditing"
         @keydown.space="startEditing"
-        tabindex="0"
         v-else >
         <template v-if="value">
           {{ value }}
@@ -26,12 +31,6 @@
             {{ placeholder }}
           </span>
         </template>
-        <a href="#"
-           class="edit-icon"
-           @click="startEditing"
-           >
-           <img tabindex="-1" height=20 width=20 src="/img/edit.svg" alt="edit this field" />
-        </a>
       </span>
     </div>
   </div>
@@ -46,7 +45,7 @@ export default {
     initialValue: String,
     placeholder: {
       type: String,
-      default: "click to set value"
+      default: "empty value"
     }
   },
 
@@ -60,12 +59,14 @@ export default {
 
   methods: {
     finishEditing() {
-      this.value = this.value.trim().slice(0, 255);
-      if (this.value != this.oldValue) {
-        const msg = `updating civ ${this.civilizationId}, ${this.keyString}: ${this.oldValue} => ${this.value}`;
-        console.log(msg);
-        this.$root.$emit("log", msg);
-        this.$emit('edited', [this.keyString, this.value]);
+      if (this.value) {
+        this.value = this.value.trim().slice(0, 255);
+        if (this.value != this.oldValue) {
+          const msg = `updating civ ${this.civilizationId}, ${this.keyString}: ${this.oldValue} => ${this.value}`;
+          console.log(msg);
+          this.$root.$emit("log", msg);
+          this.$emit('edited', [this.keyString, this.value]);
+        }
       }
       this.editing = false;
     },

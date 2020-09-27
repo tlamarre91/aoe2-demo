@@ -121,10 +121,10 @@ class CivilizationController extends Controller
       $civ->name = $civData['name'];
       $civ->expansion = $civData['expansion'];
       $civ->army_type = $civData['army_type'];
-      // $civ->unique_unit = $civData['unique_unit'];
-      // $civ->unique_tech = $civData['unique_tech'];
+      $civ->unique_unit = json_encode($civData['unique_unit']);
+      $civ->unique_tech = json_encode($civData['unique_tech']);
       $civ->team_bonus = $civData['team_bonus'];
-      // $civ->civilization_bonus = $civData['civilization_bonus'];
+      $civ->civilization_bonus = json_encode($civData['civilization_bonus']);
       $civ->saveOrFail();
       Log::debug('saved '.$civ->name);
     }

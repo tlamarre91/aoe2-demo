@@ -13,9 +13,16 @@
                :civilization-id="civilization.id"
                :initial-value="civilization.name" />
           <div class="remove-btn">
+            <!--
             <button @click="$emit('remove', civilization.id)">
               x
             </button>
+            -->
+            <a href="#"
+               class="delete-icon"
+               @click="$emit('remove', civilization.id)" >
+               <img tabindex="-1" height=20 width=20 src="/img/delete.svg" alt="delete this civilization" />
+            </a>
           </div>
         </div>
         <div class="card-body">
@@ -37,6 +44,26 @@
              key-string="team_bonus"
              label="Team bonus"
              :initial-value="civilization.team_bonus" />
+            <editable-list
+              @edited="handleEditedText"
+              :civilization-id="civilization.id"
+              key-string="civilization_bonus"
+              label="Civilization bonus"
+              :initial-values="civilization.civilization_bonus" />
+            <editable-list
+              @edited="handleEditedText"
+              :civilization-id="civilization.id"
+              key-string="unique_unit"
+              label="Unique unit"
+              :initial-values="civilization.unique_unit"
+              render-links />
+            <editable-list
+              @edited="handleEditedText"
+              :civilization-id="civilization.id"
+              key-string="unique_tech"
+              label="Unique tech"
+              :initial-values="civilization.unique_tech"
+              render-links />
           <div class="card-footer">
             <div class="created-at">
               created: {{ displayCreatedAt }}
@@ -54,11 +81,13 @@
 <script>
 import EditableTextRow from "./EditableTextRow.vue";
 import EditableTextHeader from "./EditableTextHeader.vue";
+import EditableList from "./EditableList.vue";
 
 export default {
   components: {
     EditableTextRow,
-    EditableTextHeader
+    EditableTextHeader,
+    EditableList
   },
 
   props: {
