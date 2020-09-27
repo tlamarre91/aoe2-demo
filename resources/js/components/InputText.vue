@@ -9,7 +9,7 @@
     <a class="input-submit"
        tabindex="0"
        href="#"
-       @click="$emit('submit')" >
+       @click="emitSubmit" >
       add
     </a>
   </div>
@@ -33,6 +33,13 @@ export default {
         // Override input listener to work with v-model
         input: event => this.$emit('input', event.target.value)
       }
+    }
+  },
+
+  methods: {
+    emitSubmit(event) {
+      event.preventDefault();
+      this.$emit("submit");
     }
   }
 }

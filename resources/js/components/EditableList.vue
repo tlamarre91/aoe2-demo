@@ -2,22 +2,50 @@
     <div class="editable-list">
       <div class="editable-list-key">
         {{ label }}
-        <a href="#"
-           class="edit-icon"
-           v-show="! editing"
-           @click="startEditing" >
-           <img tabindex="-1" height=15 width=15 src="/img/edit.svg" alt="edit this field" />
+        <a
+          v-if="! editing"
+          href="#"
+          class="edit-icon"
+          @click="startEditing" >
+          <img tabindex="0" height=15 width=15 src="/img/edit.svg" alt="edit this field" />
         </a>
+          <!--
+          <a
+            v-else
+            href="#"
+            class="save-icon"
+            @click="finishEditing" >
+            save
+          </a>
+          -->
       </div>
       <div class="editable-list-values">
-        <textarea
-          ref="input"
-          class="editable-list-value-edit"
-          @blur="finishEditing"
-          v-model="linesepValues"
-          :rows="Math.max(values.length, 3)"
-          cols="60"
-          v-if="editing" />
+        <div class="editable-list-item-container" v-if="editing">
+          <div class="editable-list-item" v-for="(item, index) in values">
+            <input
+              class="editable-list-item-edit"
+              v-model="item.value"
+              :key="index"
+              ref="inputs"
+              />
+            <a href="#"
+               class="delete-icon"
+               @click="deleteItem($event, index)" >
+               <img tabindex="0" height=15 width=15 src="/img/delete.svg" alt="delete this row" />
+            </a>
+          </div>
+          <a href="#"
+             class="edit-button"
+             @click="pushNewItem" >
+             add item
+          </a>
+          <br />
+          <a href="#"
+             class="edit-button"
+             @click="finishEditing" >
+             save list
+          </a>
+        </div>
         <div
           class="editable-list-values-static"
           @keydown.enter="startEditing"
@@ -27,14 +55,14 @@
             <ul class="editable-list-values-list">
               <li
                 v-for="(item, index) in values"
-                :key="civilizationId.toString().concat(keyString).concat(index)" >
+                :key="civilizationId.toString() + '-' + keyString + '-' + index.toString()" >
                 <template v-if="renderLinks">
-                  <a :href="item" target="_blank">
-                    {{ item.split("/")[item.split("/").length - 1] }}
+                  <a class="link-item" :href="item" target="_blank">
+                    {{ item.value.split("/")[item.value.split("/").length - 1] }}
                   </a>
                 </template>
                 <template v-else>
-                  {{ item }}
+                  {{ item.value }}
                 </template>
               </li>
             </ul>
@@ -69,42 +97,49 @@ export default {
   data() {
     return {
       editing: 0,
-      values: this.initialValues ? JSON.parse(this.initialValues) : [],
-      linesepValues: ""
+      values: (this.initialValues ? JSON.parse(this.initialValues) : []).map(item => ({ value: item })),
     }
   },
 
   methods: {
-    finishEditing() {
-      this.editing = false;
-      const trimmed = this.linesepValues.trim();
-      if (trimmed) {
-        this.values = this.linesepValues.trim().split("\n");
-      } else {
-        this.values = [];
+    finishEditing(event) {
+      if (event) {
+        event.preventDefault();
       }
+
+      this.editing = false;
+      this.values = this.values
+        .map(v => ({ value: v.value.trim() }))
+        .filter(v => v.value.length != 0);
 
       const msg = `updating civ ${this.civilizationId}, ${this.keyString} with ${this.values.length} items`;
       console.log(msg);
       this.$root.$emit("log", msg);
-      this.$emit("edited", [this.keyString, JSON.stringify(this.values)]);
+      const str = JSON.stringify(this.values.map(v => v.value));
+      console.log(str);
+      this.$emit("edited", [this.keyString, str]);
     },
 
     startEditing(event) {
       event.preventDefault();
-      this.linesepValues = this.values.join("\n");
-      console.log('trying to edit');
       this.editing = true;
-      this.$nextTick(() => {
-        const input = this.$refs.input;
-        input.focus();
-      });
+    },
+
+    deleteItem(event, index) {
+      event.preventDefault();
+      this.values.splice(index, 1);
+    },
+
+    pushNewItem() {
+      event.preventDefault();
+      this.values.push({ value: "" });
     }
   }
 }
 </script>
 
 <style lang="scss">
+@import '../../sass/_variables.scss';
 .editable-list {
   display: flex;
   width: 100%;
@@ -140,5 +175,37 @@ export default {
 .editable-list-values-list {
   margin: 0;
   padding-left: 0px;
+}
+
+.editable-list-item-edit {
+  display: block;
+  width: 300px;
+}
+
+.editable-list-item-container {
+}
+
+.editable-list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.edit-button {
+  color: $green;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.edit-button:visited {
+  color: $green;
+}
+.link-item {
+  color: $blue;
+  text-decoration: none;
+}
+
+.link-item:visited {
+  color: $blue;
 }
 </style>

@@ -13,14 +13,9 @@
                :civilization-id="civilization.id"
                :initial-value="civilization.name" />
           <div class="remove-btn">
-            <!--
-            <button @click="$emit('remove', civilization.id)">
-              x
-            </button>
-            -->
             <a href="#"
                class="delete-icon"
-               @click="$emit('remove', civilization.id)" >
+               @click="emitRemove($event, civilization.id)" >
                <img tabindex="-1" height=20 width=20 src="/img/delete.svg" alt="delete this civilization" />
             </a>
           </div>
@@ -159,6 +154,13 @@ export default {
     },
 
     handleEditedList(keyval) {
+      // turns out handleEditedText does the job just fine
+      // since we're passing strings anyway
+    },
+
+    emitRemove(event, civilizationId) {
+      event.preventDefault();
+      this.$emit("remove", civilizationId);
     }
   }
 }

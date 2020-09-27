@@ -50,7 +50,10 @@ export default {
   },
 
   methods: {
-    addCivilization() {
+    addCivilization(event) {
+      if (event) {
+        event.preventDefault();
+      }
       const trimmedText = this.newCivText.trim()
       if (trimmedText) {
         const url = "/api/civilizations";
@@ -69,7 +72,8 @@ export default {
       }
     },
 
-    reinitializeDb() {
+    reinitializeDb(event) {
+      event.preventDefault();
       const msg = "requesting database reinitialization";
       console.log(msg);
       this.$root.$emit("log", msg);
@@ -90,7 +94,8 @@ export default {
       });
     },
 
-    dropAll() {
+    dropAll(event) {
+      event.preventDefault();
       const url = "/api/civilizations/destroy-all";
       axios.delete(url).then((res) => {
         const status = res.status == 200 ? "OK": res.status;
@@ -103,7 +108,8 @@ export default {
       });
     },
 
-    refresh() {
+    refresh(event) {
+      event.preventDefault();
       this.$root.$emit("log", "refreshing civilization list");
       this.$refs.list.load();
     }
