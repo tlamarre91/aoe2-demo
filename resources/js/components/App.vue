@@ -104,7 +104,7 @@ export default {
         console.log(err);
         this.$root.$emit("log", msg);
         this.$root.$emit("log", "Check if https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations is down!");
-        this.$root.$emit("log", "If so, try 'populate defaults from storage'");
+        this.$root.$emit("log", "If so, try 'populate from storage'");
       });
     },
 
