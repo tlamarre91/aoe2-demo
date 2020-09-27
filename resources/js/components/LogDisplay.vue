@@ -40,7 +40,7 @@ export default {
   width: 100%;
   border: 1px solid #ddd;
   margin: 10 auto;
-  height: 5.3rem;
+  height: 5.6rem;
   font-family: monospace;
 }
 

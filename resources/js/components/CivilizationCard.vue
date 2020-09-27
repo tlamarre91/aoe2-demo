@@ -3,9 +3,15 @@
     <div class="row justify-content-center">
       <div class="card">
         <div class="card-header">
+          <!--
           <div class="civ-name">
             {{ civilization.name }}
           </div>
+          -->
+          <editable-text-header 
+               @edited="handleEditedText"
+               :civilization-id="civilization.id"
+               :initial-value="civilization.name" />
           <div class="remove-btn">
             <button @click="$emit('remove', civilization.id)">
               x
@@ -47,10 +53,12 @@
 
 <script>
 import EditableTextRow from "./EditableTextRow.vue";
+import EditableTextHeader from "./EditableTextHeader.vue";
 
 export default {
   components: {
-    EditableTextRow
+    EditableTextRow,
+    EditableTextHeader
   },
 
   props: {
@@ -190,13 +198,5 @@ td {
   flex-direction: row;
   font-size: 0.8rem;
   color: #888;
-}
-
-.civ-id {
-
-}
-
-.civ-name {
-	color: $green;
 }
 </style>
