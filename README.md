@@ -1,6 +1,8 @@
 # aoe2-demo
 A little Laravel/Vue app for editing AoE2 civilization lists
+
 author: [Tom LaMarre](https://github.com/tlamarre91)
+
 url: [aoe2-demo.herokuapp.com](https://aoe2-demo.herokuapp.com/)
 
 This app is designed to run locally (with `php artisan serve`) or be deployed to Heroku. Currently, a GitHub webhook is used to automatically deploy any changes committed to this repository's [heroku-deploy](https://github.com/tlamarre91/aoe2-demo/tree/heroku-deploy) branch to the Heroku app running at [aoe2-demo.herokuapp.com](https://aoe2-demo.herokuapp.com/).
