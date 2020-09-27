@@ -50,15 +50,13 @@
               :civilization-id="civilization.id"
               key-string="unique_unit"
               label="Unique unit"
-              :initial-values="civilization.unique_unit"
-              render-links />
+              :initial-values="civilization.unique_unit" />
             <editable-list
               @edited="handleEditedText"
               :civilization-id="civilization.id"
               key-string="unique_tech"
               label="Unique tech"
-              :initial-values="civilization.unique_tech"
-              render-links />
+              :initial-values="civilization.unique_tech" />
           <div class="card-footer">
             <div class="created-at">
               created: {{ displayCreatedAt }}

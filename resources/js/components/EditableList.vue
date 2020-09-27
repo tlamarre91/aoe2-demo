@@ -48,13 +48,9 @@
                 v-for="(item, index) in values"
                 :key="civilizationId.toString() + '-' + keyString + '-' + index.toString()" >
                 <template v-if="renderLinks">
-                  <!--
                   <a class="link-item" :href="item.value" target="_blank">
-                  -->
                     {{ item.value.split("/")[item.value.split("/").length - 1] }}
-                  <!--
                   </a>
-                  -->
                 </template>
                 <template v-else>
                   {{ item.value }}
