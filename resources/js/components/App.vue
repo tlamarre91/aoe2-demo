@@ -1,6 +1,14 @@
 <template>
 	<div id="app">
 		<h2>AoE2 Civilization Editor</h2>
+    <div class="header-links">
+      <a target="_blank" href="https://github.com/tlamarre91/aoe2-demo">
+        github repo
+      </a>
+      <a target="_blank" href="https://github.com/tlamarre91/aoe2-demo/blob/master/README.md">
+        README
+      </a>
+    </div>
     <div class="input-container">
       <input-text 
         v-model="newCivText"
@@ -209,5 +217,22 @@ h2 {
 
 .urgent-button:focus {
   background-color: #555;
+}
+
+.header-links {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.header-links a {
+  padding: 0 1rem 1rem 1rem;
+  font-style: italic;
+  color: $green;
+}
+
+.header-links a:visited {
+  color: $green;
 }
 </style>
