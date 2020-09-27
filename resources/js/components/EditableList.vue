@@ -9,15 +9,6 @@
           @click="startEditing" >
           <img tabindex="0" height=15 width=15 src="/img/edit.svg" alt="edit this field" />
         </a>
-          <!--
-          <a
-            v-else
-            href="#"
-            class="save-icon"
-            @click="finishEditing" >
-            save
-          </a>
-          -->
       </div>
       <div class="editable-list-values">
         <div class="editable-list-item-container" v-if="editing">
@@ -57,9 +48,13 @@
                 v-for="(item, index) in values"
                 :key="civilizationId.toString() + '-' + keyString + '-' + index.toString()" >
                 <template v-if="renderLinks">
-                  <a class="link-item" :href="item" target="_blank">
+                  <!--
+                  <a class="link-item" :href="item.value" target="_blank">
+                  -->
                     {{ item.value.split("/")[item.value.split("/").length - 1] }}
+                  <!--
                   </a>
+                  -->
                 </template>
                 <template v-else>
                   {{ item.value }}

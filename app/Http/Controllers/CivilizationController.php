@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Civilization as Civilization;
 use App\Http\Resources\Civilization as CivilizationResource;
@@ -110,11 +111,41 @@ class CivilizationController extends Controller
 
   public function initialize()
   {
-    $this->destroyAll();
+    //Log::debug($request->input['fallback']);
     $response = Http::get('https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations');
     Log::debug('initializing DB');
-    Log::debug('response status: '.$response->getStatusCode());
-    $json = $response->json()['civilizations'];
+    $status = $response->getStatusCode();
+    Log::debug('response status: '.$status);
+    if ($status == 200) {
+      $this->destroyAll();
+      $json = $response->json()['civilizations'];
+      foreach ($json as $civData) {
+        Log::debug('handling: '.print_r($civData, true));
+        $civ = new Civilization;
+        $civ->name = $civData['name'];
+        $civ->expansion = $civData['expansion'];
+        $civ->army_type = $civData['army_type'];
+        $civ->unique_unit = json_encode($civData['unique_unit']);
+        $civ->unique_tech = json_encode($civData['unique_tech']);
+        $civ->team_bonus = $civData['team_bonus'];
+        $civ->civilization_bonus = json_encode($civData['civilization_bonus']);
+        $civ->saveOrFail();
+        Log::debug('saved '.$civ->name);
+      }
+
+      return $json;
+    } else {
+      Log::debug('error! cancelling initialize with no changes');
+      return response("got response code ".$status." from age-of-empires-2-api", 503);
+    }
+  }
+
+  public function initializeFromLocal()
+  {
+    $json = Storage::disk('public')->get('civilizations.json');
+    $json = json_decode($json, true);
+    Log::debug($json);
+    $this->destroyAll();
     foreach ($json as $civData) {
       Log::debug('handling: '.print_r($civData, true));
       $civ = new Civilization;
@@ -128,7 +159,5 @@ class CivilizationController extends Controller
       $civ->saveOrFail();
       Log::debug('saved '.$civ->name);
     }
-
-    return $json;
   }
 }

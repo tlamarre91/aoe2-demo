@@ -14,8 +14,11 @@
       <a tabindex="0" href="#" class="normal-button" @click="refresh">
         refresh
       </a>
-      <a tabindex="0" href="#" class="urgent-button" @click="reinitializeDb">
-        populate defaults
+      <a tabindex="0" href="#" class="urgent-button" @click="populateFromApi">
+        populate from API
+      </a>
+      <a tabindex="0" href="#" class="urgent-button" @click="populateFromStorage">
+        populate from storage
       </a>
       <a tabindex="0" href="#" class="urgent-button" @click="dropAll">
         delete all
@@ -72,12 +75,38 @@ export default {
       }
     },
 
-    reinitializeDb(event) {
+    populateFromApi(event) {
       event.preventDefault();
-      const msg = "requesting database reinitialization";
+      const msg = "requesting database reinitialization from age-of-empires-2-api.herokuapp.com";
       console.log(msg);
       this.$root.$emit("log", msg);
       const url = "/api/civilizations/initialize";
+      axios.post(url).then((res) => {
+        const status = res.status == 200 ? "OK": res.status;
+        const msg = `POST ${url} response: ${status}`;
+        console.log(msg);
+        this.$root.$emit("log", msg);
+
+        const json = res.data;
+        console.log(json);
+        this.$refs.list.load();
+      }, (err) => {
+        const msg = `POST ${url} error: ${err}`;
+        console.log(msg);
+        console.log(err);
+        this.$root.$emit("log", msg);
+        this.$root.$emit("log", "Check if https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations is down!");
+        this.$root.$emit("log", "If so, try 'populate defaults from storage'");
+      });
+    },
+
+    populateFromStorage(event) {
+      event.preventDefault();
+      const msg = "requesting database reinitialization from /public/civilizations.json";
+      console.log(msg);
+      this.$root.$emit("log", msg);
+
+      const url = "/api/civilizations/initialize-from-local";
       axios.post(url).then((res) => {
         const status = res.status == 200 ? "OK": res.status;
         const msg = `POST ${url} response: ${status}`;
