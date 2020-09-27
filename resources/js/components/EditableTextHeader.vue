@@ -22,6 +22,12 @@
           {{ placeholder }}
         </span>
       </template>
+      <a href="#"
+         class="edit-icon"
+         @click="startEditing"
+         >
+         <img tabindex="-1" height=20 width=20 src="/img/edit.svg" alt="edit this field" />
+      </a>
     </span>
   </div>
 </template>
