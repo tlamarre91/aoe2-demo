@@ -96,6 +96,8 @@ export default {
   width: 100%;
   height: 2rem;
   align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .editable-text-key {
