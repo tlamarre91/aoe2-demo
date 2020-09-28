@@ -12,7 +12,7 @@ The backend is a Laravel application which expects a PostgreSQL database to be r
 The frontend is a Vue app providing a UI for interacting with the backend, with components for:
 * Displaying the currently stored list of civilizations
 * Adding new civilizations to the list
-* Updating civilizations
+* Updating civilizations (by clicking icons next to field names)
 * Deleting civilizations
 * Reinitializing the list to mirror [age-of-empires-2-api.herokuapp.com/api/v1/civilizations](https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations) or, alternatively, the file `public/civilizations.json`.
 
