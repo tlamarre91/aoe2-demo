@@ -3,7 +3,7 @@
 		<h2>AoE2 Civilization Editor</h2>
     <div class="header-links">
       <a target="_blank" href="https://github.com/tlamarre91/aoe2-demo">
-        github repo
+        GitHub repo
       </a>
       <a target="_blank" href="https://github.com/tlamarre91/aoe2-demo/blob/master/README.md">
         README
