@@ -134,8 +134,8 @@ export default {
 .editable-list {
   display: flex;
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .editable-list-key {
